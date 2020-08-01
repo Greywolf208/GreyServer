@@ -1,5 +1,4 @@
 'use-strict';
-console.log("test this");
 var config = require('./config.json');
 var WebSocket = require('ws');
 require('./fix');
