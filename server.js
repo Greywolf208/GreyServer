@@ -1,3 +1,4 @@
+address: "ws://" + config.addr + ":" + config.port,
 var config = require('./config.json');
 var WebSocket = require('ws');
 require('./fix');
