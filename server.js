@@ -6,7 +6,7 @@ var Istrolid = require('./istrolid.js');
 const allowedCmds = ["playerJoin", "mouseMove", "playerSelected", "setRallyPoint", "buildRq", "stopOrder", "holdPositionOrder", "followOrder", "selfDestructOrder", "moveOrder", "configGame", "startGame", "addAi", "switchSide", "kickPlayer", "surrender"]
 
 global.sim = new Sim();
-Sim.prototype.cheatSimInterval = -12;
+Sim.prototype.cheatSimInterval = -10;
 Sim.prototype.lastSimInterval = 0;
 
 let changes = require('./changes.json');
