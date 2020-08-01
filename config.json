@@ -1,0 +1,6 @@
+{
+    "name": "Community Test(Greywolf208)",
+    "port": 8080,
+    "addr": "greystrolid-test3.wl.r.appspot.com",
+    "root_addr": "ws://198.199.109.223:88"
+}
