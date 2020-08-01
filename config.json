@@ -1,6 +1,6 @@
 {
     "name": "Community Patch(Greywolf208)",
     "port": 8080,
-    "addr": "greystrolid-test3.wl.r.appspot.com",
+    "addr": "149.28.39.197.vultr.com",
     "root_addr": "ws://198.199.109.223:88"
 }
