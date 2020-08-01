@@ -1,6 +1,6 @@
 {
-    "name": "Grey Test(Greywolf208)",
+    "name": "GreyTest(Grey)",
     "port": 8080,
-    "addr": "149.28.39.197",
+    "addr": "ws://149.28.39.197:88",
     "root_addr": "ws://198.199.109.223:88"
 }
