@@ -1,4 +1,4 @@
-
+console.log
 var config = require('./config.json');
 var WebSocket = require('ws');
 require('./fix');
