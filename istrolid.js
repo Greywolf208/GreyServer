@@ -4553,13 +4553,8 @@ zjson - binary json sirelizer with some strange features
         }
         this.timeings = {};
       }
-      data.changes = require('./changes.json');
-      this.timeEnd("other");
-      this.timeStart("zJson");
-      packet = this.zJson.dumpDv(data);
-      this.timeEnd("zJson");
-      this.timeEnd("send");
-      return packet;
+      
+      return data;
     };
 
     Sim.prototype.clearNetState = function() {
