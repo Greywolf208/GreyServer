@@ -124,10 +124,14 @@ global.Server = function() {
         ws.on('close', e => {
             if(players[id]) {
                 players[id].connected = false;
+                delete clientsWithNewChanges[ws];
                 delete players[id];
             }
         });
     });
+
+    let clientsWithNewChanges = {},
+        changesJSON = require('./changes.json');
 
     var interval = setInterval(() => {
         let rightNow = now();
@@ -143,7 +147,11 @@ global.Server = function() {
             let packet = sim.send();
             wss.clients.forEach(client => {
                 if(client.readyState === WebSocket.OPEN) {
-                    client.send(packet);
+                    if(clientsWithNewChanges[client]) client.send(sim.zJson.dumpDv(packet));
+                    else {
+                        client.send(sim.zJson.dumpDv({...packet, changes: changesJSON}));
+                        clientsWithNewChanges[client] = true;
+                    }
                 }
             });
         }
