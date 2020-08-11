@@ -4553,7 +4553,8 @@ zjson - binary json sirelizer with some strange features
         }
         this.timeings = {};
       }
-      
+      this.timeEnd("other");
+      this.timeEnd("send");
       return data;
     };
 
