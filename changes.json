@@ -142,5 +142,6 @@
   "MachineGun.image" : "turWavePush.png",
   "MachineGun.disable" : false,
   "MachineGun.hide" : false,
-  "MachineGun.range" : 790
+  "MachineGun.range" : 790,
+  "SidewinderTurret.bulletSpeed" : 24
 }
