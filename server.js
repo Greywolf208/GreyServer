@@ -105,7 +105,7 @@ global.Server = function() {
     wss.on('connection', (ws, req) => {
         console.log("connection from", req.connection.remoteAddress);
 
-        let id = req.headers['sec-websocket-key'];
+        let id = ws.id = req.headers['sec-websocket-key'];
 
         ws.on('message', msg => {
             let packet = new DataView(new Uint8Array(msg).buffer);
@@ -117,7 +117,7 @@ global.Server = function() {
                 players[id] = player;
                 sim.clearNetState();
             } else if (data[0] === 'requestChanges') {
-                clientsWithNewChanges[ws] = false;
+                clientsWithNewChanges[id] = false;
             } else if(allowedCmds.includes(data[0])) {
                 sim[data[0]].apply(sim, [players[id],...data.slice(1)]);
             }
@@ -126,7 +126,7 @@ global.Server = function() {
         ws.on('close', e => {
             if(players[id]) {
                 players[id].connected = false;
-                delete clientsWithNewChanges[ws];
+                delete clientsWithNewChanges[id];
                 delete players[id];
             }
         });
@@ -149,10 +149,10 @@ global.Server = function() {
             let packet = sim.send();
             wss.clients.forEach(client => {
                 if(client.readyState === WebSocket.OPEN) {
-                    if(clientsWithNewChanges[client]) client.send(sim.zJson.dumpDv(packet));
+                    if(clientsWithNewChanges[client.id]) client.send(sim.zJson.dumpDv(packet));
                     else {
                         client.send(sim.zJson.dumpDv({...packet, changes: changesJSON}));
-                        clientsWithNewChanges[client] = true;
+                        clientsWithNewChanges[client.id] = true;
                     }
                 }
             });
