@@ -213,11 +213,11 @@ function onMessage(data) {
     break;
     case('!script'):
       sim.say('List of scripts:');
-      sim.say('Apply Changes: https://pastebin.com/raw/6g70jmS6')
+      sim.say('Apply Changes: https://gist.github.com/Greywolf208/2368553dd9e5665110e45bfc481bf73d')
        sim.say('Custom AI: https://gist.github.com/Greywolf208/5cc04730be018a1a2fef6efd22740f5d')
     break;
     case('!restart'):
-      if (name === 'Greywolf208' || name === 'KevX' || name === 'AuronDarkmoon') {
+      if (name === 'grayy' || name === 'KevX' || name === 'AuronDarkmoon') {
         sim.say('Restarting...');
         process.exit(1);
       }
