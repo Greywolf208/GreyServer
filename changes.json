@@ -143,5 +143,5 @@
   "MachineGun.disable" : false,
   "MachineGun.hide" : false,
   "MachineGun.range" : 750,
-  "SidewinderTurret.bulletSpeed" : 2
+  "SidewinderTurret.bulletSpeed" : 22
 }
