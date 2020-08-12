@@ -137,11 +137,11 @@
   "MachineGun.desc" : "An extremely low damage beam based weapon that slows down enemy ships. Base 18.75% slow PER HIT, scales 1:1 to damage(double damage = 25% slow per hit). Max slow of 65%, including stacking with stasis fields.",
   "MachineGun.reloadTime" : 4,
   "MachineGun.damage" : 0.75, 
-  "MachineGun.shotEnergy" : 450,
+  "MachineGun.shotEnergy" : 500,
   "MachineGun.mass" : 12,
   "MachineGun.image" : "turWavePush.png",
   "MachineGun.disable" : false,
   "MachineGun.hide" : false,
-  "MachineGun.range" : 775,
+  "MachineGun.range" : 750,
   "SidewinderTurret.bulletSpeed" : 24
 }
