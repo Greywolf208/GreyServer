@@ -18,7 +18,7 @@
   "Mount10Range.mass" : 40,
   "Mount180.mass" :7,
   "TargetingMod.weaponRange" : 20,
-  "TargetingMod.weaponRangeFlat" : 100,
+  "TargetingMod.weaponRangeFlat" : 75,
   "PDTurret.mass" : 15,
   "PDTurret.shotEnergy" : 1155,  
   "EMPGun.reloadTime" :  56,
@@ -143,5 +143,5 @@
   "MachineGun.disable" : false,
   "MachineGun.hide" : false,
   "MachineGun.range" : 750,
-  "SidewinderTurret.bulletSpeed" : 24
+  "SidewinderTurret.bulletSpeed" : 2
 }
