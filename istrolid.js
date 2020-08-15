@@ -6054,6 +6054,11 @@ General Game Objects live here
         return this.dead = true;
       }
     };
+    
+    Bullet.prototype.hitMissle = function(thing) {
+      thing.life = thing.maxLife;
+      return thing.explode = false;
+    };
 
     
 Bullet.prototype.hitUnit = function(thing) {
@@ -6078,6 +6083,8 @@ Bullet.prototype.hitUnit = function(thing) {
       }
   }
 };
+    
+
 
     Bullet.prototype._collide = function(thing) {
       var distance, speed;
