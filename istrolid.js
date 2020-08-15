@@ -6055,10 +6055,29 @@ General Game Objects live here
       }
     };
 
-    Bullet.prototype.hitMissle = function(thing) {
-      thing.life = thing.maxLife;
-      return thing.explode = false;
-    };
+    
+Bullet.prototype.hitUnit = function(thing) {
+  thing.applyDamage(this.damage);
+  if (this.energyDamage) {
+    thing.applyEnergyDamage(this.energyDamage);
+  }
+  if(thing.reflectsShots && thing.shield > 0){
+      const origin = this.origin;
+      this.origin = this.target;
+      this.target = origin;
+      this.life = 0;
+      this.side = this.side === "alpha" ? "beta" : "alpha";
+      v2.rotate(this.vel, Math.PI, this.vel);
+      this.rot += Math.PI;
+      this.damage *= thing.reflectsShotsBy;
+      if(this.postFire) this.postFire();
+      if(this.damage < 1) return this.dead = true;
+  } else {
+      if (!this.hitsMultiple) {
+        return this.dead = true;
+      }
+  }
+};
 
     Bullet.prototype._collide = function(thing) {
       var distance, speed;
@@ -8577,7 +8596,8 @@ General Game Objects live here
       return this.makeBullet(dist);
     };
 
-    Turret.prototype.makeBullet = function(distance) {
+     
+Turret.prototype.makeBullet = function(distance) {
       var exp, particle;
       this.unit.cloak = 0;
       particle = new this.bulletCls();
@@ -8594,8 +8614,7 @@ General Game Objects live here
       particle.damage = this.damage;
       particle.energyDamage = this.energyDamage;
       particle.hitsMissiles = this.hitsMissiles;
-      particle.aoe = this.aoe + this.displayAoe;
-      particle.displayAoe = this.displayAoe;
+      particle.aoe = this.aoe;
       particle.burnAmount = this.burnAmount;
       v2.set(this.worldPos, particle.pos);
       v2.pointTo(particle.vel, this.rot);
@@ -8615,6 +8634,9 @@ General Game Objects live here
           sim.things[exp.id] = exp;
         } else {
           this.target.applyDamage(particle.damage);
+          if(this.target.reflectsShots && this.target.shield > 0){
+            this.unit.applyDamage(this.target.reflectsShotsBy * particle.damage);
+          }
         }
       } else if (this.exactRange) {
         particle.maxLife = Math.floor(distance / particle.speed);
@@ -13981,20 +14003,22 @@ General Game Objects live here
 
     TeslaTurret.prototype.maxLife = 1;
 
-    TeslaTurret.prototype.makeBullet = function(distance) {
-      var i, id, len, ref, results, unit;
-      this.unit.cloak = 0;
-      this.zapped = [];
-      this.zap(this.worldPos, this.target);
-      ref = this.zapped;
-      results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        id = ref[i];
-        unit = sim.things[id];
-        results.push(unit.applyDamage(this.damage / this.zapped.length));
-      }
-      return results;
-    };
+   
+TeslaTurret.prototype.makeBullet = function(distance) {
+  var i, id, len, ref, results, unit;
+  this.unit.cloak = 0;
+  this.zapped = [];
+  this.zap(this.worldPos, this.target);
+  ref = this.zapped;
+  results = [];
+  for (i = 0, len = ref.length; i < len; i++) {
+    id = ref[i];
+    unit = sim.things[id];
+    results.push(unit.applyDamage(this.damage / this.zapped.length));
+    if(unit.reflectsShots && unit.shield > 0) this.unit.applyDamage(unit.reflectsShotsBy * this.damage / this.zapped.length);
+  }
+  return results;
+};
 
     TeslaTurret.prototype.zap = function(from, unit) {
       var closestUnit, minD, particle, range;
@@ -15048,34 +15072,58 @@ General Game Objects live here
 
   })(AiPart);
 
-  parts.Ai3 = (function(superClass) {
+parts.Ai3 = (function(superClass) {
     extend(Ai3, superClass);
-
+ 
     function Ai3() {
       return Ai3.__super__.constructor.apply(this, arguments);
     }
-
-    Ai3.prototype.name = "Accurate AI";
-
-    Ai3.prototype.desc = "Makes the adjacent turrets shoot only at targets is sure really to hit. (does not work yet)";
-
+ 
+    Ai3.prototype.name = "Reflector Shield Generator";
+ 
+    Ai3.prototype.desc = "A shield generator which reflects all enemy non-aoe shots at 30% initial damage plus 10% damage for each additional ReflectorShield (max 100%).";
+ 
+    Ai3.prototype.hp = 0;
+ 
     Ai3.prototype.cost = 50;
-
-    Ai3.prototype.image = "ai09.png";
-
+ 
+    Ai3.prototype.mass = 30;
+ 
+    Ai3.prototype.genShield = 1;
+ 
+    Ai3.prototype.useEnergy = 110;
+ 
+    Ai3.prototype.energyLine = .50;
+ 
+    Ai3.prototype.shield = 25;
+ 
+    Ai3.prototype.image = "Shield2x2.png";
+ 
     Ai3.prototype.attach = true;
-
-    Ai3.prototype.adjacent = true;
-
-    Ai3.prototype.size = [1, 1];
-
-    Ai3.prototype.mass = 10;
-
-    Ai3.prototype.disable = true;
-
+ 
+    Ai3.prototype.size = [2, 2];
+ 
+    Ai3.prototype.tab = "defence";
+  
+    Ai3.prototype.disable = true; 
+ 
+    Ai3.prototype.tick = function() {
+      if (this.unit.energy > this.useEnergy && this.unit.energy > this.unit.storeEnergy * this.energyLine) {
+        this.unit.energy -= this.useEnergy * Math.max(0, Math.min(1, (this.unit.maxShield - this.unit.shield) / this.genShield));
+        return this.unit.shield += this.genShield;
+      }
+    };
+ 
+    Ai3.prototype.init = function() {
+        if(this.unit.reflectsShotsBy === undefined) this.unit.reflectsShotsBy = 0.3;
+        else this.unit.reflectsShotsBy += 0.1;
+        if(this.unit.reflectsShotsBy > 1) this.unit.reflectsShotsBy = 1;
+        return this.unit.reflectsShots = true;
+    }
+ 
     return Ai3;
-
-  })(AiPart);
+ 
+  })(Part);
 
   parts.Ai4 = (function(superClass) {
     extend(Ai4, superClass);
