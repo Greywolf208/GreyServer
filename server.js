@@ -214,7 +214,8 @@ function onMessage(data) {
     case('!script'):
       sim.say('List of scripts:');
       sim.say('Apply Changes: https://gist.github.com/Greywolf208/2368553dd9e5665110e45bfc481bf73d')
-       sim.say('Custom AI: https://gist.github.com/Greywolf208/5cc04730be018a1a2fef6efd22740f5d')
+      sim.say('Apply Images: https://gist.github.com/Greywolf208/8608106b52b7b8fc4ec08407ba6059f8')
+      sim.say('Custom AI: https://gist.github.com/Greywolf208/5cc04730be018a1a2fef6efd22740f5d')
     break;
     case('!restart'):
       if (name === 'grayy' || name === 'KevX' || name === 'AuronDarkmoon') {
