@@ -145,7 +145,7 @@
   "MachineGun.disable" : false,
   "MachineGun.hide" : false,
   "MachineGun.range" : 700,
-  "SidewinderTurret.bulletSpeed" : 23,
+  "SidewinderTurret.bulletSpeed" : 20,
   "Ai3.disable" : false,
   "Ai3.hide" : false,
   "Ai3.image" : "focus.png",
