@@ -151,7 +151,7 @@
   "Ai3.image" : "focus.png",
   "Ai3.size" : [2, 2],
   "Ai3.tab" : "defence",
-  "Ai3.useEnergy" : 160,
+  "Ai3.useEnergy" : 135,
   "Ai3.energyLine" : 0.5,
   "Ai3.mass" : 60,
   "Ai3.genShield" : 0.75,
