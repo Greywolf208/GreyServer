@@ -15123,7 +15123,7 @@ parts.Ai3 = (function(superClass) {
  
     Ai3.prototype.init = function() {
         if(this.unit.reflectsShotsBy === undefined) this.unit.reflectsShotsBy = 0.3;
-        else this.unit.reflectsShotsBy += 0.1;
+        else this.unit.reflectsShotsBy += 0.15;
         if(this.unit.reflectsShotsBy > 1) this.unit.reflectsShotsBy = 1;
         return this.unit.reflectsShots = true;
     }
