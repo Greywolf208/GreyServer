@@ -11044,14 +11044,14 @@ Turret.prototype.makeBullet = function(distance) {
         }
         distance = v2.distance(this.stasisPos, other.pos);
         if (distance < other.radius + this.range) {
-          /*other.jump -= 30;
+          other.jump -= 30;
           if (other.jump < 0) {
             other.jump = 0;
-          }*/
-          other.cloak -= 20;
+          }
+          /*other.cloak -= 20;
           if (other.cloak < 0) {
             other.cloak = 0;
-          }
+          }*/
           this.unit.cloak = 0;
           speed = v2.mag(other.vel);
           if (speed > this.maxSlow) {
